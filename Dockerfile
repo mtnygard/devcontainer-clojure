@@ -14,12 +14,16 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
 # Verify git, needed tools installed
-RUN yum install -y git openssh-clients less net-tools which curl procps unzip 
+RUN yum install -y git openssh-clients less net-tools which curl procps unzip
 
 # Install Clojure
-RUN yum install -y readline
 ENV CLOJURE_VERSION 1.10.1.561
 RUN curl -s https://download.clojure.org/install/linux-install-${CLOJURE_VERSION}.sh | bash 
+
+# Add shadow-cljs
+RUN yum install -y oracle-nodejs-release-el7-1.0-5.el7.x86_64
+RUN yum install -y nodejs
+RUN npm install -g shadow-cljs
 
 # Clean yum cache
 RUN yum clean all
